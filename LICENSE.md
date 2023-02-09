@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2023 Samuel Gomes
+Copyright (c) 2023 Cory Smith
+Portions copyright (c) 2023 Samuel Gomes
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

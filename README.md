@@ -1,6 +1,6 @@
 # QB64 ANSI Escape Sequence Emulator
 
-This is an [ANSI Escape Sequence](https://en.wikipedia.org/wiki/ANSI_escape_code) Emulator library written entirely in [QB64-PE](https://github.com/QB64-Phoenix-Edition/QB64pe).
+This is an [ANSI Escape Sequence](https://en.wikipedia.org/wiki/ANSI_escape_code) Emulator library written entirely in [QB64](https://qb64.com).
 
 ![Screenshot](screenshots/screenshot1.png)
 ![Screenshot](screenshots/screenshot2.png)
@@ -10,9 +10,9 @@ This is an [ANSI Escape Sequence](https://en.wikipedia.org/wiki/ANSI_escape_code
 
 - No dependency on third party libraries - OK
 - No OS specific code - OK
-- Support all meaninful [ANSI Escape Sequences](https://en.wikipedia.org/wiki/ANSI_escape_code) - WIP
-- Support all meaninful [ANSI.SYS Escape Sequences](https://en.wikipedia.org/wiki/ANSI.SYS) - WIP
-- Support all meaninful non-ANSI escape sequences (e.g. [PabloDraw](https://github.com/cwensley/pablodraw) 24bpp colors) - WIP
+- Support all meaningful [ANSI Escape Sequences](https://en.wikipedia.org/wiki/ANSI_escape_code) - WIP
+- Support all meaningful [ANSI.SYS Escape Sequences](https://en.wikipedia.org/wiki/ANSI.SYS) - WIP
+- Support all meaningful non-ANSI escape sequences (e.g. [PabloDraw](https://github.com/cwensley/pablodraw) 24bpp colors) - WIP
 - Support embedded [ANSI music](docs/ansimtech.txt) - WIP
 - Support [animated ANSI](http://www.roysac.com/ansianim.html) content - WIP
 - Support querying width and height of the content in characters - WIP
@@ -48,10 +48,15 @@ Anything you want! Use it in games, demos or for writing pretty text mode user i
 
 ## Notes
 
-- This requires the latest version of [QB64-PE](https://github.com/QB64-Phoenix-Edition/QB64pe)
-- The renderer is designed for QB64's 32BPP graphics Window. Legacy `SCREEN`s will not work
-- This is WIP. So, expect things to change and break. There are some bugs and quirks that needs to be worked out
+- This requires a relatively recent version of [QB64](https://qb64.com); tested with [QB64](https://qb64.com) v2.1.0
+- [QuickPak Professional](https://github.com/DualBrain/QuickPakPro) is required for `DEMO.BAS`; simply get a copy of [QPP](https://github.com/DualBrain/QuickPakPro) and put it at the same folder level as this project:
+  - `C:\Projects\ANSIPRINT`
+  - `C:\Projects\QuickPakPro`
+- The renderer is designed for QB64's 32BPP graphics Window. Legacy `SCREEN`s will not work. With that said, will work toward getting it to work with "legacy" `SCREEN` modes.
+- Not all included samples are working, but they are included so that they can be utilized to potentially handle whatever reason/issue/feature *doesn't work*.
+- This is WIP.
 
 ## Credits
 
-[Rick Christy (grymmjack)](https://github.com/grymmjack) for pointing out issues and helping me with invaluable resources. I've also used some of his artwork shamelessly for testing my library.
+- Based on a project initially created by [Samuel Gomes])(https://github.com/a740g).
+- Some of the artwork included for testing is by [Rick Christy](https://github.com/grymmjack).

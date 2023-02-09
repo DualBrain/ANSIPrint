@@ -1,115 +1,114 @@
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
-' QB64 Base64 Encoder and Decoder library
-' Copyright (c) 2023 Samuel Gomes
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
+$IF BASE64_BAS = UNDEFINED THEN
 
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
-' HEADER FILES
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
-'$Include:'./Base64.bi'
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
+  $LET BASE64_BAS = TRUE
 
-$If BASE64_BAS = UNDEFINED Then
-    $Let BASE64_BAS = TRUE
+  ' Convert a normal string to a base64 string
+  FUNCTION EncodeBase64$ (s AS STRING)
 
-    '-----------------------------------------------------------------------------------------------------------------------------------------------------------
-    ' FUNCTIONS & SUBROUTINES
-    '-----------------------------------------------------------------------------------------------------------------------------------------------------------
-    ' Convert a normal string to a base64 string
-    Function EncodeBase64$ (s As String)
-        Dim As String buffer, result
-        Dim As Unsigned Long i
+    CONST BASE64_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-        For i = 1 To Len(s)
-            buffer = buffer + Chr$(Asc(s, i))
-            If Len(buffer) = 3 Then
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShR(Asc(buffer, 1), 2))))
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShL((Asc(buffer, 1) And 3), 4) Or ShR(Asc(buffer, 2), 4))))
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShL((Asc(buffer, 2) And 15), 2) Or ShR(Asc(buffer, 3), 6))))
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (Asc(buffer, 3) And 63)))
-                buffer = NULLSTRING
-            End If
-        Next
+    DIM buffer AS STRING 
+    DIM result AS STRING 
+    DIM i AS _UNSIGNED LONG
 
-        ' Add padding
-        If Len(buffer) > 0 Then
-            result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShR(Asc(buffer, 1), 2))))
-            If Len(buffer) = 1 Then
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShL(Asc(buffer, 1) And 3, 4))))
-                result = result + "=="
-            Else
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShL((Asc(buffer, 1) And 3), 4) Or ShR(Asc(buffer, 2), 4))))
-                result = result + Chr$(Asc(BASE64_CHARACTERS, 1 + (ShL(Asc(buffer, 2) And 15, 2))))
-                result = result + "="
-            End If
-        End If
+    FOR i = 1 TO LEN(s)
+      buffer = buffer + CHR$(ASC(s, i))
+      IF LEN(buffer) = 3 THEN
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHR(ASC(buffer, 1), 2))))
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHL((ASC(buffer, 1) AND 3), 4) OR _SHR(ASC(buffer, 2), 4))))
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHL((ASC(buffer, 2) AND 15), 2) OR _SHR(ASC(buffer, 3), 6))))
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (ASC(buffer, 3) AND 63)))
+        buffer = NULLSTRING
+      END IF
+    NEXT
 
-        EncodeBase64 = result
-    End Function
+    ' Add padding
+    IF LEN(buffer) > 0 THEN
+      result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHR(ASC(buffer, 1), 2))))
+      IF LEN(buffer) = 1 THEN
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHL(ASC(buffer, 1) AND 3, 4))))
+        result = result + "=="
+      ELSE
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHL((ASC(buffer, 1) AND 3), 4) OR _SHR(ASC(buffer, 2), 4))))
+        result = result + CHR$(ASC(BASE64_CHARACTERS, 1 + (_SHL(ASC(buffer, 2) AND 15, 2))))
+        result = result + "="
+      END IF
+    END IF
 
+    EncodeBase64 = result
 
-    ' Convert a base64 string to a normal string
-    Function DecodeBase64$ (s As String)
-        Dim As String buffer, result
-        Dim As Unsigned Long i
-        Dim As Unsigned Byte char1, char2, char3, char4
+  END FUNCTION
 
-        For i = 1 To Len(s) Step 4
-            char1 = InStr(BASE64_CHARACTERS, Chr$(Asc(s, i))) - 1
-            char2 = InStr(BASE64_CHARACTERS, Chr$(Asc(s, i + 1))) - 1
-            char3 = InStr(BASE64_CHARACTERS, Chr$(Asc(s, i + 2))) - 1
-            char4 = InStr(BASE64_CHARACTERS, Chr$(Asc(s, i + 3))) - 1
-            buffer = Chr$(ShL(char1, 2) Or ShR(char2, 4)) + Chr$(ShL(char2 And 15, 4) Or ShR(char3, 2)) + Chr$(ShL(char3 And 3, 6) Or char4)
+  ' Convert a base64 string to a normal string
+  FUNCTION DecodeBase64$ (s AS STRING)
 
-            result = result + buffer
-        Next
+    CONST BASE64_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-        ' Remove padding
-        If Right$(s, 2) = "==" Then
-            result = Left$(result, Len(result) - 2)
-        ElseIf Right$(s, 1) = "=" Then
-            result = Left$(result, Len(result) - 1)
-        End If
+    DIM buffer AS STRING
+    DIM result AS STRING
+    DIM i AS _UNSIGNED LONG
+    DIM char1 AS _UNSIGNED _BYTE
+    DIM char2 AS _UNSIGNED _BYTE
+    DIM char3 AS _UNSIGNED _BYTE
+    DIM char4 AS _UNSIGNED _BYTE
 
-        DecodeBase64 = result
-    End Function
+    FOR i = 1 TO LEN(s) STEP 4
+      char1 = INSTR(BASE64_CHARACTERS, CHR$(ASC(s, i))) - 1
+      char2 = INSTR(BASE64_CHARACTERS, CHR$(ASC(s, i + 1))) - 1
+      char3 = INSTR(BASE64_CHARACTERS, CHR$(ASC(s, i + 2))) - 1
+      char4 = INSTR(BASE64_CHARACTERS, CHR$(ASC(s, i + 3))) - 1
+      buffer = CHR$(_SHL(char1, 2) OR _SHR(char2, 4)) + CHR$(_SHL(char2 AND 15, 4) OR _SHR(char3, 2)) + CHR$(_SHL(char3 AND 3, 6) OR char4)
+      result = result + buffer
+    Next
 
+    ' Remove padding
+    IF RIGHT$(s, 2) = "==" THEN
+      result = LEFT$(result, LEN(result) - 2)
+    ELSEIF RIGHT$(s, 1) = "=" THEN
+      result = LEFT$(result, LEN(result) - 1)
+    END IF
 
-    ' Loads a binary file encoded with Bin2Data
-    ' Usage:
-    '   1. Encode the binary file with Bin2Data
-    '   2. Include the file or it's contents
-    '   3. Load the file like so:
-    '       Restore label_generated_by_bin2data
-    '       Dim buffer As String
-    '       buffer = LoadResource   ' buffer will now hold the contents of the file
-    Function LoadResource$
-        Dim As Unsigned Long ogSize, resSize
-        Dim As Byte isCompressed
+    DecodeBase64 = result
 
-        Read ogSize, resSize, isCompressed ' read the header
+  END FUNCTION
 
-        Dim As String buffer, result
+  ' Loads a binary file encoded with Bin2Data
+  ' Usage:
+  '   1. Encode the binary file with Bin2Data
+  '   2. Include the file or it's contents
+  '   3. Load the file like so:
+  '       Restore label_generated_by_bin2data
+  '       Dim buffer As String
+  '       buffer = LoadResource   ' buffer will now hold the contents of the file
+  FUNCTION LoadResource$
 
-        ' Read the whole resource data
-        Do While Len(result) < resSize
-            Read buffer
-            result = result + buffer
-        Loop
+    DIM ogSize AS _UNSIGNED LONG
+    DIM resSize AS _UNSIGNED LONG
+    DIM isCompressed AS _BYTE
 
-        ' Decode the data
-        buffer = DecodeBase64(result)
+    READ ogSize, resSize, isCompressed ' read the header
 
-        ' Expand the data if needed
-        If isCompressed Then
-            result = Inflate$(buffer, ogSize)
-        Else
-            result = buffer
-        End If
+    DIM buffer AS STRING
+    DIM result AS STRING
 
-        LoadResource = result
-    End Function
-    '-----------------------------------------------------------------------------------------------------------------------------------------------------------
-$End If
-'---------------------------------------------------------------------------------------------------------------------------------------------------------------
+    ' Read the whole resource data
+    DO WHILE LEN(result) < resSize
+      READ buffer
+      result = result + buffer
+    LOOP
 
+    ' Decode the data
+    buffer = DecodeBase64(result)
+
+    ' Expand the data if needed
+    IF isCompressed THEN
+      result = _INFLATE$(buffer, ogSize)
+    ELSE
+      result = buffer
+    END IF
+
+    LoadResource = result
+
+  END FUNCTION
+
+$END IF
