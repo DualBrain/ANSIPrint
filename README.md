@@ -54,6 +54,7 @@ Anything you want! Use it in games, demos or for writing pretty text mode user i
   - `C:\Projects\QuickPakPro`
 - The renderer is designed for QB64's 32BPP graphics Window. Legacy `SCREEN`s will not work. With that said, will work toward getting it to work with "legacy" `SCREEN` modes.
 - Not all included samples are working, but they are included so that they can be utilized to potentially handle whatever reason/issue/feature *doesn't work*.
+- F1 is currently not working; I'm currently working on an *Open File Dialog* implementation that is also **ASCII** based; to load a file in the mean time (`DEMO.BAS`), you can utilize drag-and-drop. (NOTE: The *Open File Dialog* work is initially being done in the [QuickPak Professional](https://github.com/DualBrain/QuickPakPro) project and will then be available to this project upon completion.)
 - This is WIP.
 
 ## Credits
