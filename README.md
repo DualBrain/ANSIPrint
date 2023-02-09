@@ -58,5 +58,5 @@ Anything you want! Use it in games, demos or for writing pretty text mode user i
 
 ## Credits
 
-- Based on a project initially created by [Samuel Gomes])(https://github.com/a740g).
+- Based on a project initially created by [Samuel Gomes](https://github.com/a740g).
 - Some of the artwork included for testing is by [Rick Christy](https://github.com/grymmjack).
